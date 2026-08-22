@@ -1,0 +1,30 @@
+question
+
+HQ9+ (133A) — Rating 800
+
+code
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String s = sc.next();
+
+        boolean found = false;
+
+        for (char c : s.toCharArray()) {
+            if (c == 'H' || c == 'Q' || c == '9') {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+}
