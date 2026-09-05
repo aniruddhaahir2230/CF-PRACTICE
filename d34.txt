@@ -1,0 +1,34 @@
+question
+
+Buy a Shovel (732A) — Rating 800
+
+
+code
+
+
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int k = sc.nextInt();
+        int r = sc.nextInt();
+
+        int n = 1;
+
+        while (true) {
+            int lastDigit = (k * n) % 10;
+
+            if (lastDigit == 0 || lastDigit == r) {
+                System.out.println(n);
+                break;
+            }
+
+            n++;
+        }
+    }
+}
+
+
