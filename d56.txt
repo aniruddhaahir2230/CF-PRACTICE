@@ -1,0 +1,35 @@
+question
+
+Stones on the Table (Problem 266A, Rating: 800)
+
+code 
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+    
+    string s;
+    cin >> s;
+
+    int remove_count = 0;
+
+    // Check adjacent elements
+    for (int i = 0; i < n - 1; i++) {
+        if (s[i] == s[i + 1]) {
+            remove_count++;
+        }
+    }
+
+    cout << remove_count << "\n";
+
+    return 0;
+}
