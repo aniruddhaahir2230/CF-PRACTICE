@@ -1,0 +1,37 @@
+question
+
+
+
+1807A - Plus or Minus
+
+
+
+code
+
+
+#include <iostream>
+
+using namespace std;
+
+void solve() {
+    int a, b, c;
+    cin >> a >> b >> c;
+    if (a + b == c) {
+        cout << "+\n";
+    } else {
+        cout << "-\n";
+    }
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
