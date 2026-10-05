@@ -1,0 +1,48 @@
+question
+
+Problem: Fashionable Array (Codeforces)
+
+
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    sort(a.begin(), a.end());
+    
+    if (a[n - 1] - a[0] <= 1) {
+        cout << 0 << "\n";
+    } else {
+        // If max - min > 1, we can just keep all elements equal to a[0] 
+        // or any single value, but wait! 
+        // If we keep all elements of value a[0], we remove n - count(a[0]).
+        // Actually, if a[n-1] - a[0] > 1, the minimum number of elements to remove 
+        // to make max - min <= 1 is n - (count of max) or n - count of min? 
+        // Wait, if we keep all elements equal to a[0], count is frequency of a[0].
+        // Removals = n - count(a[0]).
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (a[i] == a[0]) cnt++;
+        }
+        cout << n - cnt << "\n";
+    }
+}
+
+int main() {
+    int t = 1;
+    // cin >> t;
+    while (t--) solve();
+    return 0;
+}
