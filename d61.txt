@@ -1,0 +1,84 @@
+question
+
+
+Codeforces 1951C - Ticket Hoarding
+
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Day {
+    long long price;
+    int id;
+    long long bought = 0;
+};
+
+// Sort primarily by base price ascending
+bool sortByPrice(const Day& a, const Day& b) {
+    return a.price < b.price;
+}
+
+// Sort back by original day index chronological order
+bool sortById(const Day& a, const Day& b) {
+    return a.id < b.id;
+}
+
+void solve() {
+    int n;
+    long long m, k;
+    cin >> n >> m >> k;
+
+    vector<Day> days(n);
+    for (int i = 0; i < n; i++) {
+        cin >> days[i].price;
+        days[i].id = i;
+    }
+
+    // Step 1: Sort by cheapest base price
+    sort(days.begin(), days.end(), sortByPrice);
+
+    // Step 2: Greedily buy tickets on the cheapest days
+    long long remaining_k = k;
+    for (int i = 0; i < n; i++) {
+        if (remaining_k <= 0) break;
+        long long take = min(m, remaining_k);
+        days[i].bought = take;
+        remaining_k -= take;
+    }
+
+    // Step 3: Sort back to original chronological order to calculate correct tax
+    sort(days.begin(), days.end(), sortById);
+
+    long long total_cost = 0;
+    long long purchased_so_far = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (days[i].bought > 0) {
+            // Price per ticket = base price + tickets bought before this day
+            long long current_price = days[i].price + purchased_so_far;
+            total_cost += days[i].bought * current_price;
+            purchased_so_far += days[i].bought;
+        }
+    }
+
+    cout << total_cost << "\n";
+}
+
+int main() {
+    // Optimise standard I/O operations
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
