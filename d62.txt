@@ -1,0 +1,47 @@
+question
+
+
+Product of Three Numbers
+
+
+code
+
+def solve(n):
+    # Step 1: Find the smallest distinct factor 'a'
+    a = -1
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            a = i
+            break
+            
+    if a == -1:
+        return "NO"
+        
+    # Reduce n by removing factor a
+    n //= a 
+    
+    # Step 2: Find the next smallest distinct factor 'b'
+    b = -1
+    for i in range(a + 1, int(n**0.5) + 1):
+        if n % i == 0:
+            b = i
+            break
+            
+    if b == -1:
+        return "NO"
+        
+    # Step 3: The remainder is 'c'
+    c = n // b
+    
+    # Step 4: Validate that c is distinct and greater than b
+    if c > b:
+        return f"YES\n{a} {b} {c}"
+    else:
+        return "NO"
+
+# Example Usage:
+# print(solve(64))   # Expected: YES -> 2 4 8
+# print(solve(32))   # Expected: NO
+# print(solve(2026)) # Expected: NO
+
+
