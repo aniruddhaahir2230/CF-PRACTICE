@@ -1,0 +1,58 @@
+question
+
+
+
+ Going Home (Codeforces 1500A)
+
+
+ code
+
+
+ #include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct PairIndices {
+    int first_idx;
+    int second_idx;
+};
+
+PairIndices sum_lookup[5000005];
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+
+    vector<int> a(n + 1);
+    for (int i = 1; i <= n; ++i) {
+        cin >> a[i];
+    }
+
+    int limit = min(n, 5000);
+
+    for (int i = 1; i <= limit; ++i) {
+        for (int j = i + 1; j <= limit; ++j) {
+            int current_sum = a[i] + a[j];
+
+            if (sum_lookup[current_sum].first_idx != 0) {
+                int x = sum_lookup[current_sum].first_idx;
+                int y = sum_lookup[current_sum].second_idx;
+
+                if (x != i && x != j && y != i && y != j) {
+                    cout << "YES\n";
+                    cout << x << " " << y << " " << i << " " << j << "\n";
+                    return 0;
+                }
+            } else {
+                sum_lookup[current_sum] = {i, j};
+            }
+        }
+    }
+
+    cout << "NO\n";
+    return 0;
+}
