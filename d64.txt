@@ -1,0 +1,49 @@
+question
+
+
+You are given an array a of n integers. Find the number of pairs of indices (i, j) such that 1 ≤ i < j ≤ n and the sum of the elements at these indices falls within the range \([l, r]\), i.e., \(l \le a[i] + a[j] \le r\).
+
+code 
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void solve() {
+    int n;
+    long long l, r;
+    cin >> n >> l >> r;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    sort(a.begin(), a.end());
+
+    long long total_pairs = 0;
+
+    for (int i = 0; i < n; i++) {
+        auto low = lower_bound(a.begin() + i + 1, a.end(), l - a[i]);
+        auto high = upper_bound(a.begin() + i + 1, a.end(), r - a[i]);
+        
+        total_pairs += (high - low);
+    }
+
+    cout << total_pairs << "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
