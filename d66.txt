@@ -1,0 +1,76 @@
+question
+
+
+
+You are given an array of n integers. You need to choose exactly x elements from this array such that the sum of the chosen elements is odd.
+Find out if it is possible to make such a selection.
+
+Input
+
+• The first line contains a single integer t — the number of test cases.
+• The first line of each test case contains two integers n and x (1 ≤ x ≤ n ≤ 1000) — the total number of elements and the number of elements you need to choose.
+• The second line of each test case contains n integers \(a_1, a_2, \dots, a_n\) (\(1 \le a_i \le 1000\)) — the elements of the array.
+
+Output
+
+• For each test case, print "Yes" if it's possible to choose x elements with an odd sum, and "No" otherwise.
+
+
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+void solve() {
+    int n, x;
+    cin >> n >> x;
+    
+    int odd_count = 0;
+    int even_count = 0;
+    
+    for (int i = 0; i < n; i++) {
+        int num;
+        cin >> num;
+        if (num % 2 != 0) {
+            odd_count++;
+        } else {
+            even_count++;
+        }
+    }
+    
+    bool possible = false;
+    
+    for (int i = 1; i <= odd_count; i += 2) {
+        if (i <= x) {
+            int needed_even = x - i;
+            if (needed_even <= even_count) {
+                possible = true;
+                break;
+            }
+        }
+    }
+    
+    if (possible) {
+        cout << "Yes\n";
+    } else {
+        cout << "No\n";
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
