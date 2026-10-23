@@ -1,0 +1,36 @@
+question
+
+Codeforces 1352C: K-th Not Divisible by n
+
+code
+
+#include <iostream>
+
+using namespace std;
+
+void solve() {
+    long long n, k;
+    cin >> n >> k;
+    
+    // Calculate how many multiples of n will appear before the k-th non-divisible number
+    long long skipped_multiples = (k - 1) / (n - 1);
+    
+    // The total value is k plus the count of skipped multiples
+    long long ans = k + skipped_multiples;
+    
+    cout << ans << "\n";
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
