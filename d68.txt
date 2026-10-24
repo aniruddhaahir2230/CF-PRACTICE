@@ -1,0 +1,68 @@
+question
+
+
+
+roblem Description
+
+You are given an array of n integers. You need to determine if it is possible to choose exactly x elements from this array such that their sum is odd.
+• Input: The first line contains t (the number of test cases). Each test case contains n (total elements) and x (elements to choose), followed by the n integers.
+• Output: Print "Yes" if it is possible to select x elements with an odd sum, otherwise print "No".
+
+
+
+code
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void solve() {
+    int n, x;
+    cin >> n >> x;
+    
+    int odds = 0, evens = 0;
+    for (int i = 0; i < n; i++) {
+        int num;
+        cin >> num;
+        if (num % 2 != 0) {
+            odds++;
+        } else {
+            evens++;
+        }
+    }
+    
+    bool possible = false;
+    
+    // Iterate through the count of odd numbers we can choose
+    // The count of odd numbers chosen must be odd (1, 3, 5...)
+    for (int i = 1; i <= odds && i <= x; i += 2) {
+        int needed_evens = x - i;
+        if (needed_evens <= evens) {
+            possible = true;
+            break;
+        }
+    }
+    
+    if (possible) {
+        cout << "Yes\n";
+    } else {
+        cout << "No\n";
+    }
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
