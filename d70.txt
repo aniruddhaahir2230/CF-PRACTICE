@@ -1,0 +1,61 @@
+question
+
+
+
+Problem: Codeforces 1365C - Rotation Matching (Rating: 1400)
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+int main() {
+    // Optimize standard I/O operations for competitive programming
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+
+    // Vectors to store the 0-based index positions of each number (1 to n)
+    vector<int> posA(n + 1);
+    vector<int> posB(n + 1);
+
+    for (int i = 0; i < n; ++i) {
+        int val;
+        cin >> val;
+        posA[val] = i;
+    }
+
+    for (int i = 0; i < n; ++i) {
+        int val;
+        cin >> val;
+        posB[val] = i;
+    }
+
+    // Array to record the frequency of each unique shift offset
+    vector<int> shift_counts(n, 0);
+
+    for (int val = 1; val <= n; ++val) {
+        int diff = posA[val] - posB[val];
+        if (diff < 0) {
+            diff += n; // Handle negative offsets to wrap around cyclically
+        }
+        shift_counts[diff]++;
+    }
+
+    // Find the shift offset that yields the maximum matches
+    int max_matches = 0;
+    for (int i = 0; i < n; ++i) {
+        max_matches = max(max_matches, shift_counts[i]);
+    }
+
+    cout << max_matches << "\n";
+
+    return 0;
+}
