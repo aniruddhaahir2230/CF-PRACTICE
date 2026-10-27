@@ -1,0 +1,68 @@
+question
+
+
+You are given an array A of length n consisting of integers from 0 to 9. A subarray \(A[l \dots r]\) is considered good if the sum of its elements is exactly equal to its length.
+
+
+
+code
+
+
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+void solve() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+
+    // Map to store frequency of (prefix_sum - index)
+    map<int, int> counts;
+    
+    // Base case: Before processing any element, prefix sum = 0 at index = 0.
+    // (P[0] - 0) = 0
+    counts[0] = 1;
+
+    long long good_subarrays = 0;
+    int current_prefix_sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        // Convert character to integer value
+        int val = s[i] - '0';
+        
+        // Add to our running prefix sum
+        current_prefix_sum += val;
+
+        // Calculate the target value: P[r] - r
+        // Using 1-based indexing for the equation (i + 1)
+        int target = current_prefix_sum - (i + 1);
+
+        // If this value has been seen before, it forms 'counts[target]' good subarrays
+        if (counts.find(target) != counts.end()) {
+            good_subarrays += counts[target];
+        }
+
+        // Increment the frequency of the current target value
+        counts[target]++;
+    }
+
+    cout << good_subarrays << "\n";
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
