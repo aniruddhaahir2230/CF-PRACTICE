@@ -1,0 +1,52 @@
+question
+
+
+Featured Problem: Codeforces 279B - Books (Rating: 1400)
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long t;
+    if (!(cin >> n >> t)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+
+    int max_books = 0;
+    int left = 0;
+    long long current_sum = 0;
+
+    // Sliding window / Two pointers
+    for (int right = 0; right < n; ++right) {
+        current_sum += a[right];
+
+        // If the current time exceeds t, shrink the window from the left
+        while (current_sum > t && left <= right) {
+            current_sum -= a[left];
+            left++;
+        }
+
+        // Calculate the number of books in the current valid window
+        max_books = max(max_books, right - left + 1);
+    }
+
+    cout << max_books << "\n";
+
+    return 0;
+}
+
+
