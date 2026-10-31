@@ -1,0 +1,63 @@
+question
+
+
+ Codeforces: 1520E - Arranging The Sheep.
+
+ code
+
+
+ #include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+void solve() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+
+    // Store the indices of all sheep
+    vector<int> sheep_indices;
+    for (int i = 0; i < n; i++) {
+        if (s[i] == '*') {
+            sheep_indices.push_back(i);
+        }
+    }
+
+    int total_sheep = sheep_indices.size();
+
+    // If there are no sheep or just 1 sheep, no moves are needed
+    if (total_sheep <= 1) {
+        cout << 0 << "\n";
+        return;
+    }
+
+    // Find the median sheep index
+    int median_idx = total_sheep / 2;
+    long long total_moves = 0;
+
+    // Calculate moves for each sheep relative to the median sheep
+    for (int i = 0; i < total_sheep; i++) {
+        // Distance to the median sheep, corrected for the spacing they must maintain
+        total_moves += abs(sheep_indices[i] - sheep_indices[median_idx]) - abs(i - median_idx);
+    }
+
+    cout << total_moves << "\n";
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
