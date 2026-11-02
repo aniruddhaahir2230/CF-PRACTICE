@@ -1,0 +1,47 @@
+question
+
+Problem: Boredom (Codeforces 455A)
+
+code
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+
+    const int MAX_VAL = 100005;
+    vector<long long> count(MAX_VAL, 0);
+
+    // Count the frequency of each number
+    for (int i = 0; i < n; i++) {
+        int val;
+        cin >> val;
+        count[val]++;
+    }
+
+    // dp[i] stores the max points possible using numbers from 0 up to i
+    vector<long long> dp(MAX_VAL, 0);
+
+    dp[0] = 0;
+    dp[1] = count[1] * 1;
+
+    for (int i = 2; i < MAX_VAL; i++) {
+        // Option 1: Skip the current number 'i'
+        // Option 2: Take the current number 'i' (adds count[i]*i, skips i-1)
+        dp[i] = max(dp[i - 1], dp[i - 2] + count[i] * i);
+    }
+
+    // The answer will be the maximum points achievable up to the maximum possible value
+    cout << dp[MAX_VAL - 1] << "\n";
+
+    return 0;
+}
