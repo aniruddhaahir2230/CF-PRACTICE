@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void solve() {
+    int n;
+    long long m;
+    cin >> n >> m;
+    
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+    
+    string s;
+    cin >> s;
+    
+    // Pointers tracking the boundaries of the array during forward deletion
+    int left = 0;
+    int right = n - 1;
+    
+    // Track the order of elements as they are kept/processed at each stage
+    vector<int> order;
+    for (int i = 0; i < n - 1; i++) {
+        if (s[i] == 'L') {
+            order.push_back(left);
+            left++;
+        } else {
+            order.push_back(right);
+            right--;
+        }
+    }
+    // The very last remaining element
+    order.push_back(left);
+    
+    // Process backwards: build up the product from the final element to the full array
+    vector<long long> ans;
+    long long current_product = 1;
+    
+    for (int i = n - 1; i >= 0; i--) {
+        int idx = order[i];
+        current_product = (current_product * a[idx]) % m;
+        ans.push_back(current_product);
+    }
+    
+    // Reverse the answer to match the chronological forward order
+    reverse(ans.begin(), ans.end());
+    
+    for (int i = 0; i < n; i++) {
+        cout << ans[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main() {
+    // Optimize standard I/O operations for competitive programming
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
