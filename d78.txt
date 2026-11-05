@@ -1,0 +1,70 @@
+question
+
+You are given an array a of n integers, where n is always odd. You can perform at most k operations. In one operation, you can increase any element of the array by 1.
+Your task is to find the maximum possible median of the array you can achieve after performing at most k operations. The median of an odd-sized array is the element at position \(\lfloor n/2 \rfloor\) after sorting the array in non-decreasing order (using 0-based indexing).
+
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Function to check if a median value 'x' is achievable within 'k' operations
+bool check(long long x, const vector<long long>& a, int n, long long k) {
+    long long operations_needed = 0;
+    
+    // We only need to check from the median index to the end of the array
+    for (int i = n / 2; i < n; ++i) {
+        if (x > a[i]) {
+            operations_needed += (x - a[i]);
+        }
+        // Early exit optimization to prevent potential overflow
+        if (operations_needed > k) {
+            return false;
+        }
+    }
+    
+    return operations_needed <= k;
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int n;
+    long long k;
+    if (!(cin >> n >> k)) return 0;
+    
+    vector<long long> a(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> a[i];
+    }
+    
+    // Step 1: Sort the array to easily identify the median region
+    sort(a.begin(), a.end());
+    
+    // Step 2: Binary Search for the maximum possible median
+    long long low = a[n / 2];            // The minimum possible median is the current one
+    long long high = 2000000000LL;       // Upper bound: max a[i] (10^9) + max k (10^9)
+    long long ans = low;
+    
+    while (low <= high) {
+        long long mid = low + (high - low) / 2;
+        
+        if (check(mid, a, n, k)) {
+            ans = mid;       // 'mid' is possible, record it and try to find a larger one
+            low = mid + 1;
+        } else {
+            high = mid - 1;  // 'mid' is too large, reduce the search range
+        }
+    }
+    
+    cout << ans << "\n";
+    
+    return 0;
+}
