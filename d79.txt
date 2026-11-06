@@ -1,0 +1,57 @@
+question
+
+
+
+Problem: Boredom (Codeforces 455A)
+
+
+Problem Description
+
+Alex is bored, so he decides to play a game with an array a consisting of n integers.
+In one move, he can choose any element from the array (let's say its value is x) and delete it. When he deletes x, all elements equal to x - 1 and x + 1 are also deleted from the array. This single move earns him x points.
+Alex wants to maximize the total number of points he can earn by repeating this process until the array is empty.
+
+
+code
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    cin >> n;
+
+    // The maximum value of a_i is 100,000
+    const int MAX_VAL = 100005;
+    vector<long long> count(MAX_VAL, 0);
+
+    for (int i = 0; i < n; ++i) {
+        int num;
+        cin >> num;
+        count[num]++;
+    }
+
+    vector<long long> dp(MAX_VAL, 0);
+    
+    // Base cases
+    dp[0] = 0;
+    dp[1] = count[1]; // 1 * count[1]
+
+    // Fill the DP table
+    for (int i = 2; i < MAX_VAL; ++i) {
+        dp[i] = max(dp[i - 1], dp[i - 2] + i * count[i]);
+    }
+
+    // The answer will be the max points achieved up to the maximum possible element
+    cout << dp[MAX_VAL - 1] << "\n";
+
+    return 0;
+}
