@@ -1,0 +1,78 @@
+question
+
+
+Problem: Jumping Through Segments (1907D)
+
+
+code
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Function to check if a jump power 'k' is feasible
+bool check(long long k, const vector<pair<long long, long long>>& segments) {
+    long long current_min = 0;
+    long long current_max = 0;
+
+    for (const auto& segment : segments) {
+        long long l = segment.first;
+        long long r = segment.second;
+
+        // Expand the reachable range by k in both directions
+        current_min = current_min - k;
+        current_max = current_max + k;
+
+        // Intersect with the valid segment for this level
+        current_min = max(current_min, l);
+        current_max = min(current_max, r);
+
+        // If the valid range becomes invalid, this 'k' is too small
+        if (current_min > current_max) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<pair<long long, long long>> segments(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> segments[i].first >> segments[i].second;
+    }
+
+    // Binary search range for the minimal jump capability k
+    long long low = 0, high = 1e9;
+    long long ans = high;
+
+    while (low <= high) {
+        long long mid = low + (high - low) / 2;
+
+        if (check(mid, segments)) {
+            ans = mid;        // 'mid' works, try to find a smaller valid jump power
+            high = mid - 1;
+        } else {
+            low = mid + 1;    // 'mid' is too small, increase the jump power
+        }
+    }
+
+    cout << ans << "\n";
+}
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
