@@ -1,0 +1,59 @@
+question
+
+Problem: Vasya and String (676C)
+
+code
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+// Helper function to find the max length window for a target character
+int getMaxWindow(int n, int k, const string& s, char target) {
+    int l = 0;
+    int modifications_used = 0;
+    int max_len = 0;
+
+    for (int r = 0; r < n; ++r) {
+        // If it doesn't match our target, it costs a swap
+        if (s[r] != target) {
+            modifications_used++;
+        }
+
+        // Shrink window from the left if we exceeded k swaps
+        while (modifications_used > k) {
+            if (s[l] != target) {
+                modifications_used--;
+            }
+            l++;
+        }
+
+        // Update maximum length found
+        max_len = max(max_len, r - l + 1);
+    }
+    
+    return max_len;
+}
+
+int main() {
+    // Optimize standard I/O operations for performance
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    cin >> n >> k;
+    
+    string s;
+    cin >> s;
+
+    // Check both options: filling with 'a's or filling with 'b's
+    int max_a = getMaxWindow(n, k, s, 'a');
+    int max_b = getMaxWindow(n, k, s, 'b');
+
+    // Output the maximum possible beauty
+    cout << max(max_a, max_b) << "\n";
+
+    return 0;
+}
