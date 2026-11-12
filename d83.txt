@@ -1,0 +1,40 @@
+question
+
+
+
+Problem: Codeforces 1352C — K-th Not Divisible by n
+
+• Difficulty: Medium (~1200–1300 rating)
+• Topics: Math, Binary Search, Number Theory
+
+
+
+code
+
+#include <iostream>
+
+using namespace std;
+
+void solve() {
+    long long n, k;
+    cin >> n >> k;
+    
+    // Calculate how many multiples of n we need to skip
+    long long skipped = (k - 1) / (n - 1);
+    
+    cout << k + skipped << "\n";
+}
+
+int main() {
+    // Optimize standard I/O operations
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
